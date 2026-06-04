@@ -1,0 +1,45 @@
+{
+  "tools": [
+    {
+      "name": "magpie_loan_quote",
+      "description": "Calculate a single-tier Magpie loan quote. Given a collateral value in USD and a tier (Express / Quick / Standard), returns: SOL received net of fee, gross SOL loan, fee in SOL, total repayment in SOL, term in days, LTV%, and approximate liquidation drop %. Use when the user wants a quote for ONE specific tier. If you don't know which tier they want, use magpie_compare_tiers instead to show all three.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "collateral_usd": {
+            "type": "number",
+            "description": "The dollar value of the memecoin or tokenized stock collateral being pledged. Must be positive."
+          },
+          "tier": {
+            "type": "string",
+            "enum": ["Express", "Quick", "Standard"],
+            "description": "Magpie loan tier. Express = 30% LTV, 2 days, 3% fee (highest payout). Quick = 25% LTV, 3 days, 2% fee (balanced). Standard = 20% LTV, 7 days, 1.5% fee (lowest fee, most headroom)."
+          },
+          "sol_price_usd": {
+            "type": "number",
+            "description": "Optional SOL price in USD. If omitted, the handler fetches the live price from DexScreener. Pass it explicitly for deterministic outputs."
+          }
+        },
+        "required": ["collateral_usd", "tier"]
+      }
+    },
+    {
+      "name": "magpie_compare_tiers",
+      "description": "Compare all three Magpie loan tiers (Express, Quick, Standard) side-by-side for a single collateral value. Returns a structured array with the SOL received, fee, and liquidation buffer for each tier, plus a recommendation summary. Use when the user wants to choose between tiers, or when no tier is specified.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "collateral_usd": {
+            "type": "number",
+            "description": "The dollar value of the collateral being pledged. Must be positive."
+          },
+          "sol_price_usd": {
+            "type": "number",
+            "description": "Optional SOL price in USD. If omitted, fetched live from DexScreener."
+          }
+        },
+        "required": ["collateral_usd"]
+      }
+    }
+  ]
+}
