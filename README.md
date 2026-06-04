@@ -6,7 +6,7 @@ A growing collection of skill bundles for [three.ws](https://three.ws) agents. E
 
 | Skill | What it does | Install URL |
 |---|---|---|
-| **[magpie-loan-quote](./magpie-loan-quote/)** | Calculate Magpie Lending quotes — pledge memecoin or tokenized-stock collateral, see SOL received, repay amount, and approximate liquidation buffer across all three tiers. Pure math + DexScreener for live SOL price. No API key. | `https://agentastrabot.github.io/three-ws-skills/magpie-loan-quote/` |
+| **[magpie-loan-quote](./magpie-loan-quote/)** | Calculate Magpie Lending quotes (SOL received, repay amount, liquidation buffer across Express / Quick / Standard tiers) AND generate a one-tap deep-link to Magpie's Telegram bot with our referrer code attached. Three tools: `magpie_loan_quote`, `magpie_compare_tiers`, `magpie_open_loan_link`. Pure math + DexScreener. No API key. | `https://agentastrabot.github.io/three-ws-skills/magpie-loan-quote/` |
 
 ## Live agent
 
@@ -59,6 +59,26 @@ A growing collection of skill bundles for [three.ws](https://three.ws) agents. E
   "next_steps": "For the live on-chain quote with Magpie's oracle pricing, message @magpie_capital_bot on Telegram or visit magpie.capital."
 }
 ```
+
+### `magpie_open_loan_link`
+
+**Input** (all optional — pass collateral_usd + tier if you want a quote recap)
+```json
+{ "collateral_usd": 1000, "tier": "Express", "sol_price_usd": 70 }
+```
+
+**Output**
+```json
+{
+  "ok": true,
+  "deep_link": "https://t.me/magpie_capital_bot?start=8P3K3D",
+  "referrer_code": "8P3K3D",
+  "bot_username": "@magpie_capital_bot",
+  "summary": "Tap to open Magpie's bot. Plan to pledge $1000 at the Express tier — expect to receive ~4.2857 SOL, repay ~4.4143 SOL in 2 days. Liquidation if collateral drops ~64%."
+}
+```
+
+The deep-link routes users into Magpie's Telegram bot with the referrer code baked in. Per Magpie's published fee split, **5% of every loan fee from referred users flows back to the referrer wallet**.
 
 ### `magpie_compare_tiers`
 

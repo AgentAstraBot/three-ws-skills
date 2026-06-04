@@ -1,7 +1,7 @@
 {
   "spec": "skill/0.1",
   "name": "magpie-loan-quote",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Calculate Magpie Lending quotes — pledge memecoins or tokenized stocks as collateral, see what SOL you'd receive, the fee, and the approximate liquidation price across all three tiers (Express / Quick / Standard).",
   "author": "agent-magpie",
   "license": "MIT",
@@ -12,7 +12,7 @@
     "runtime": ">=0.1.0"
   },
   "provides": {
-    "tools": ["magpie_loan_quote", "magpie_compare_tiers"],
-    "triggers": ["magpie-quote", "lending-calc", "borrow-against-memecoin", "magpie-tier-comparison"]
+    "tools": ["magpie_loan_quote", "magpie_compare_tiers", "magpie_open_loan_link"],
+    "triggers": ["magpie-quote", "lending-calc", "borrow-against-memecoin", "magpie-tier-comparison", "magpie-open-loan", "take-the-loan"]
   }
 }

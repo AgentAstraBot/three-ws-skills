@@ -40,6 +40,29 @@
         },
         "required": ["collateral_usd"]
       }
+    },
+    {
+      "name": "magpie_open_loan_link",
+      "description": "Return a t.me/magpie_capital_bot deep-link the user can tap to open Magpie's Telegram loan bot with our referrer code attached. Loans are non-custodial and execute on-chain — Magpie's bot walks the user through wallet connection, collateral selection, and signing. Call this AFTER the user has decided to actually take a loan (e.g. they have already received a quote and confirmed they want to proceed). Returns the deep-link URL, the suggested tier, and a recap of the quote so the user knows what to pick inside the bot. Tier and collateral are inputs only for the recap; the bot itself prompts for them again because the /start parameter only carries the referrer code.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "collateral_usd": {
+            "type": "number",
+            "description": "Optional dollar value of the collateral the user plans to pledge — used only for the recap message so the user knows what to enter in the bot. Omit if the user is just exploring."
+          },
+          "tier": {
+            "type": "string",
+            "enum": ["Express", "Quick", "Standard"],
+            "description": "Optional tier the user plans to pick — used only for the recap. Omit if not decided."
+          },
+          "sol_price_usd": {
+            "type": "number",
+            "description": "Optional SOL price for the recap quote. If omitted and collateral_usd+tier are both provided, fetched live from DexScreener."
+          }
+        },
+        "required": []
+      }
     }
   ]
 }

@@ -116,6 +116,11 @@ export async function magpie_loan_quote({ collateral_usd, tier, sol_price_usd },
   };
 }
 
+// Referrer code is registered with Magpie. Every loan opened via this
+// deep-link earns 5% of the loan fee per Magpie's published split.
+const MAGPIE_REFERRER_CODE = '8P3K3D';
+const MAGPIE_BOT_USERNAME = 'magpie_capital_bot';
+
 // ---------- Tool 2: three-tier comparison ----------
 export async function magpie_compare_tiers({ collateral_usd, sol_price_usd }, ctx) {
   if (typeof collateral_usd !== 'number' || !(collateral_usd > 0)) {
@@ -153,5 +158,50 @@ export async function magpie_compare_tiers({ collateral_usd, sol_price_usd }, ct
       'Liquidation drop % uses a 1.2x safety buffer model — actual thresholds may be tighter.',
     ],
     next_steps: 'Pick your tier and message @magpie_capital_bot on Telegram for the live quote with Magpie\'s on-chain oracle pricing.',
+  };
+}
+
+// ---- Tool 3: open-loan deep-link with referrer code ----
+
+export async function magpie_open_loan_link({ collateral_usd, tier, sol_price_usd }, ctx) {
+  const deep_link = `https://t.me/${MAGPIE_BOT_USERNAME}?start=${MAGPIE_REFERRER_CODE}`;
+
+  // Optionally produce a quote recap if the user supplied collateral + tier
+  let quote = null;
+  let summary = `Tap to open Magpie's Telegram bot. It will walk you through wallet connect, collateral selection, and signing. Loans execute on-chain — Magpie never custodies your collateral.`;
+
+  if (
+    typeof collateral_usd === 'number' &&
+    collateral_usd > 0 &&
+    tier &&
+    TIERS[tier]
+  ) {
+    const sol_price =
+      typeof sol_price_usd === 'number' && sol_price_usd > 0
+        ? sol_price_usd
+        : await fetchSolPriceUsd(ctx);
+    if (sol_price) {
+      quote = calcTier(collateral_usd, tier, sol_price);
+      summary = `Tap to open Magpie's bot. Plan to pledge $${collateral_usd} at the ${tier} tier — expect to receive ~${quote.sol_received} SOL, repay ~${quote.total_repay_sol} SOL in ${quote.term_days} days. Liquidation if collateral drops ~${quote.liquidation_drop_pct}%.`;
+    }
+  }
+
+  return {
+    ok: true,
+    deep_link,
+    referrer_code: MAGPIE_REFERRER_CODE,
+    bot_username: '@' + MAGPIE_BOT_USERNAME,
+    inputs: {
+      collateral_usd: collateral_usd ?? null,
+      tier: tier ?? null,
+      sol_price_usd: quote && typeof sol_price_usd === 'number' ? sol_price_usd : null,
+    },
+    quote_recap: quote,
+    summary,
+    notes: [
+      'Loans are non-custodial — collateral sits in Magpie\'s Anchor program vault, not in anyone\'s wallet.',
+      'The Telegram /start parameter only carries the referrer code, not your collateral amount or tier. You\'ll re-enter those in the bot.',
+      'Magpie has had 0 liquidations since launch, but always size positions you can afford to lose.',
+    ],
   };
 }

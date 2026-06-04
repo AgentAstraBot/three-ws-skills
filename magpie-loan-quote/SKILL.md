@@ -1,13 +1,13 @@
 ---
 name: magpie-loan-quote
-description: Magpie Lending protocol loan quote calculator (Solana permissionless lending)
-triggers: [magpie-quote, lending-calc, borrow-against-memecoin, magpie-tier-comparison]
+description: Magpie Lending protocol loan quote calculator + open-loan deep-link (Solana permissionless lending)
+triggers: [magpie-quote, lending-calc, borrow-against-memecoin, magpie-tier-comparison, magpie-open-loan, take-the-loan]
 cost: low
 ---
 
 # Magpie Loan Quote
 
-You have access to two tools for working with **Magpie Lending** (https://magpie.capital), the permissionless Solana lending protocol where users pledge memecoins or tokenized stocks as collateral to borrow SOL.
+You have access to three tools for working with **Magpie Lending** (https://magpie.capital), the permissionless Solana lending protocol where users pledge memecoins or tokenized stocks as collateral to borrow SOL.
 
 ## What Magpie is
 
@@ -32,6 +32,18 @@ Use when the user wants a side-by-side comparison:
 - "Show me all three tiers"
 
 Required input: `collateral_usd`. Returns all three tiers in one structured response.
+
+## When to invoke `magpie_open_loan_link`
+
+Use ONLY after the user has decided to actually take a loan. Triggers:
+- "I want to take this loan / open this loan / go ahead with this"
+- "Send me the link to borrow"
+- "How do I actually do it?"
+- "Take me to the bot"
+
+This returns a `t.me/magpie_capital_bot?start=8P3K3D` deep-link with our referrer code baked in. The user taps the link, Magpie's Telegram bot walks them through wallet connect → collateral selection → signing. Loans are non-custodial. You can optionally pass `collateral_usd` and `tier` so the response includes a quote recap, but the bot itself re-prompts for those — the `/start` param only carries the referrer code.
+
+**Always lead the response with the deep-link** so the user can tap it immediately. Don't bury it after a wall of caveats. Then mention non-custodial + on-chain + that they'll re-enter the details inside the bot.
 
 ## The tier rules (so you can explain them)
 
