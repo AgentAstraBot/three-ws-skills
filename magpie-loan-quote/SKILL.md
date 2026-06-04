@@ -43,7 +43,7 @@ Required input: `collateral_usd`. Returns all three tiers in one structured resp
 
 LTV is the % of collateral value you receive as SOL. Fee is applied to the SOL amount.
 
-**Worked example**: $1,000 of WIF at Express → $300 worth of SOL gross, minus 3% fee on that SOL = roughly $291 of SOL net delivered. Must repay $300 worth of SOL within 2 days.
+**Worked example** (matches Magpie's published WIF example): Pledge $1,000 worth of WIF at the Express tier (30% LTV, 3% fee) when SOL is ~$70 → you receive **~4.29 SOL** ($300 / $70) up front. Repay **~4.42 SOL** total (4.29 × 1.03) within 2 days. The fee is paid on repayment, not deducted up front.
 
 ## How to present results
 

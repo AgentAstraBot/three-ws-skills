@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>three-ws-skills</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Skill bundles for three.ws agents. Hosted as static four-file bundles via GitHub Pages.">
+  <style>
+    :root { color-scheme: dark; }
+    body { font: 16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:#0b0d10; color:#e6e6e6; max-width:720px; margin:48px auto; padding:0 20px; }
+    h1 { font-size: 1.6rem; margin: 0 0 0.4em; }
+    h2 { font-size: 1.05rem; margin-top: 2em; color:#a8c2ff; }
+    a { color:#a8c2ff; }
+    code, pre { background:#15191e; padding:1px 6px; border-radius:4px; font: 13px/1.5 ui-monospace,Menlo,Consolas,monospace; }
+    pre { padding: 12px; overflow:auto; }
+    .skill { border:1px solid #1f2530; border-radius:8px; padding:14px 16px; margin: 14px 0; }
+    .skill h3 { margin: 0 0 6px; }
+    .muted { color:#8a93a3; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h1>three-ws-skills</h1>
+  <p class="muted">Skill bundles for <a href="https://three.ws">three.ws</a> agents. Each bundle is four static files (<code>manifest.json</code>, <code>SKILL.md</code>, <code>tools.json</code>, <code>handlers.js</code>) hosted via GitHub Pages.</p>
+
+  <h2>Live skills</h2>
+  <div class="skill">
+    <h3><a href="./magpie-loan-quote/">magpie-loan-quote</a></h3>
+    <p>Calculate Magpie Lending loan quotes — pledge memecoin or tokenized-stock collateral, see SOL received and repay amount across all three tiers. Pure math + DexScreener for live SOL price. No API key.</p>
+    <p class="muted">Install URL: <code>https://agentastrabot.github.io/three-ws-skills/magpie-loan-quote/</code></p>
+  </div>
+
+  <h2>Live agent</h2>
+  <p><a href="https://three.ws/marketplace/agents/00e92aa0-7337-413e-b1e9-855db7a380bf"><strong>Agent Magpie</strong></a> on three.ws runs this skill end-to-end. Brain: Claude Sonnet 4.6.</p>
+
+  <h2>Install on your own agent</h2>
+  <ol>
+    <li>Open your agent at <a href="https://three.ws/dashboard/agents">three.ws/dashboard/agents</a> → click Edit.</li>
+    <li>Open the Skills tab (under BRAIN).</li>
+    <li>Paste the install URL above into "Add a skill" → click Add → Save skills.</li>
+  </ol>
+
+  <h2>Source</h2>
+  <p><a href="https://github.com/AgentAstraBot/three-ws-skills">github.com/AgentAstraBot/three-ws-skills</a> · MIT.</p>
+</body>
+</html>

@@ -3,7 +3,7 @@
   "name": "magpie-loan-quote",
   "version": "1.0.0",
   "description": "Calculate Magpie Lending quotes — pledge memecoins or tokenized stocks as collateral, see what SOL you'd receive, the fee, and the approximate liquidation price across all three tiers (Express / Quick / Standard).",
-  "author": "agent-astra",
+  "author": "agent-magpie",
   "license": "MIT",
   "homepage": "https://magpie.capital",
   "tags": ["solana", "lending", "magpie", "defi", "calculator", "memecoin", "tokenized-stocks"],

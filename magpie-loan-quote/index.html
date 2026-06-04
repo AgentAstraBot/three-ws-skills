@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>magpie-loan-quote · three-ws-skills</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Skill bundle for quoting Magpie Lending loans on Solana. Calculate SOL received and repay amount across all three tiers.">
+  <style>
+    :root { color-scheme: dark; }
+    body { font: 16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:#0b0d10; color:#e6e6e6; max-width:760px; margin:48px auto; padding:0 20px; }
+    h1 { font-size: 1.6rem; margin: 0 0 0.4em; }
+    h2 { font-size: 1.05rem; margin-top: 2em; color:#a8c2ff; }
+    a { color:#a8c2ff; }
+    code, pre { background:#15191e; padding:1px 6px; border-radius:4px; font: 13px/1.5 ui-monospace,Menlo,Consolas,monospace; }
+    pre { padding: 12px; overflow:auto; }
+    .muted { color:#8a93a3; font-size: 14px; }
+    table { border-collapse: collapse; margin: 8px 0; }
+    th, td { border:1px solid #1f2530; padding: 6px 10px; text-align: left; }
+    th { background: #15191e; }
+  </style>
+</head>
+<body>
+  <h1>magpie-loan-quote</h1>
+  <p class="muted">Pure-math skill bundle for quoting Magpie Lending loans on Solana. Two tools: <code>magpie_loan_quote</code> (single tier) and <code>magpie_compare_tiers</code> (all three side-by-side). No API keys required — just DexScreener for live SOL/USD.</p>
+
+  <h2>Install URL</h2>
+  <pre>https://agentastrabot.github.io/three-ws-skills/magpie-loan-quote/</pre>
+  <p>Paste this into your three.ws agent's Skills tab.</p>
+
+  <h2>Bundle files</h2>
+  <ul>
+    <li><a href="./manifest.json">manifest.json</a> — skill metadata + tool/trigger registry</li>
+    <li><a href="./SKILL.md">SKILL.md</a> — system-prompt injection that teaches the LLM when to call each tool</li>
+    <li><a href="./tools.json">tools.json</a> — Anthropic-format tool schemas</li>
+    <li><a href="./handlers.js">handlers.js</a> — the actual math (runs in a sandboxed Web Worker on three.ws)</li>
+  </ul>
+
+  <h2>Tier rules</h2>
+  <table>
+    <thead><tr><th>Tier</th><th>LTV</th><th>Term</th><th>Fee</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Express</strong></td><td>30%</td><td>2 days</td><td>3%</td></tr>
+      <tr><td><strong>Quick</strong></td><td>25%</td><td>3 days</td><td>2%</td></tr>
+      <tr><td><strong>Standard</strong></td><td>20%</td><td>7 days</td><td>1.5%</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Math</h2>
+  <pre>sol_received = collateral_usd × LTV / sol_price_usd
+total_repay  = sol_received × (1 + fee_pct)
+liquidation_drop_pct ≈ (1 − LTV × 1.2) × 100</pre>
+  <p class="muted">Matches Magpie's published example (pledge 8,000 WIF → receive 3.25 SOL → repay 3.35 SOL at 30% LTV / 3% fee).</p>
+
+  <h2>Live agent using this skill</h2>
+  <p><a href="https://three.ws/marketplace/agents/00e92aa0-7337-413e-b1e9-855db7a380bf">Agent Magpie on three.ws</a>.</p>
+
+  <h2>Source</h2>
+  <p><a href="https://github.com/AgentAstraBot/three-ws-skills/tree/main/magpie-loan-quote">github.com/AgentAstraBot/three-ws-skills/magpie-loan-quote</a></p>
+  <p class="muted"><a href="../">← back to skills index</a></p>
+</body>
+</html>
